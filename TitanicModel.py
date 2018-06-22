@@ -63,3 +63,25 @@ plt.show()
 grid = sns.FacetGrid(train_df, col='Pclass', row='Survived')
 grid.map(plt.hist, 'Age')
 plt.show()
+
+## Data Wrangling part - Start changing the details in Data Frame
+
+train_df = train_df.drop(['Ticket', 'Cabin'], axis=2)
+test_df = test_df.drop(['Ticket', 'Cabin'], axis=2)
+combine = [train_df, test_df]
+
+for dataset in combine:
+    dataset['Title'] = dataset.Name.str.extract(' ([A-Za-z]+)\.', expand=False)
+pd.crosstab(train_df['Title'], train_df['Sex'])
+
+
+# Replacing the title column values as below :
+for dataset in combine:
+    dataset['Title'] = dataset['Title'].replace(['Lady', 'Countess','Capt', 'Col',\
+ 	'Don', 'Dr', 'Major', 'Rev', 'Sir', 'Jonkheer', 'Dona'], 'Rare')
+    
+    print(dataset)
+
+    dataset['Title'] = dataset['Title'].replace('Mlle', 'Miss')
+    dataset['Title'] = dataset['Title'].replace('Ms', 'Miss')
+    dataset['Title'] = dataset['Title'].replace('Mme', 'Mrs')

@@ -73,4 +73,18 @@ predicted_prices = my_model.predict(test_X)
 
 
 my_submission = pd.DataFrame({'Id': test.Id, 'SalePrice': predicted_prices})
+
+
+
+## Model persistance using Pickle library and alternate to that in Big Data Ecosystem
+import pickle
+clf = SVC()
+s = pickle.dumps(clf)
+clf2 = pickle.loads(s)
+clf2.predict(X[0:1])
+## An alternate to Pickle which works better in Big Data Ecosystem
+from sklearn.externals import joblib
+joblib.dump(clf,'test.pkl')
+clf3 = joblib.load('test.pkl')
+print(clf3)
 my_submission.to_csv('submission.csv', index=False)
